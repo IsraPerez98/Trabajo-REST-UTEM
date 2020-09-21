@@ -4,3 +4,15 @@ content-type: application/json
 {
     "rut": "27962409-2"
 }
+
+##########
+
+POST http://localhost:3000/nombrepropio/
+content-type: application/json
+
+{
+    "apellido paterno": "Perez",
+    "apellido materno": "Berrios",
+    "nombres": "Israel Marcelo",
+    "genero": "M"
+}

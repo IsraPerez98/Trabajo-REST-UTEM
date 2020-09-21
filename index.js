@@ -77,7 +77,7 @@ function verificarRut(rut){
 router.post('/digitoverificador/', function(req,res){
   const datos = req.body;
   console.log({datos});
-  const rut = req.body.rut;
+  const rut = datos.rut;
 
   // si el rut esta escrito con puntos, lo ignoramos
   if(rut.includes('.')) {
@@ -93,6 +93,39 @@ router.post('/digitoverificador/', function(req,res){
     res.send("El Rut Ingresado NO es Valido")
   }
   
+})
+
+function nombrePropio(str) {
+  // todo en minúsculas, excepto la inicial
+  //https://stackoverflow.com/a/196991
+
+  return str.replace(
+      /\w\S*/g,
+      function(txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+  );
+}
+
+
+router.post('/nombrepropio/', function(req,res) {
+  const datos = req.body;
+
+  console.log({datos});
+  
+  const apellido_paterno = nombrePropio(datos["apellido paterno"]);
+  const apellido_materno = nombrePropio(datos["apellido materno"]);
+  const nombres = nombrePropio(datos["nombres"]);
+  const genero = datos["genero"].toLowerCase();
+
+  if(genero === "m") {
+    res.send(`Sr. ${nombres} ${apellido_paterno} ${apellido_materno}`);
+  } else if(genero === "f") {
+    res.send(`Sra. ${nombres} ${apellido_paterno} ${apellido_materno}`);
+  } else {
+    res.status(422).send("El genero debe ser M o F");
+  }
+
 })
 
 app.listen(port,() => {
